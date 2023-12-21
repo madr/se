@@ -1,0 +1,41 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>@font-face in Shadow DOM</title>
+  </head>
+  <body>
+    <div id="content"></div>
+    <script>
+      var shadow = document
+        .getElementById("content")
+        .attachShadow({ mode: "open" });
+
+      var styles = document.createElement("style");
+      styles.textContent = `
+        @font-face {
+          font-family: 'Ubuntu Mono';
+          font-style: normal;
+          font-weight: 400;
+          src: local('Ubuntu Mono'), url('https://fonts.cdnfonts.com/s/15251/UbuntuMono-Regular.woff') format('woff');
+        }
+        p {
+          font-family: 'Ubuntu Mono', serif;
+          font-size: large;
+        }
+      `;
+
+      var body = document.createElement("body");
+      body.insertAdjacentHTML(
+        "beforeend",
+        `
+        <p>
+          Font should be <strong>Ubuntu mono</strong>, but is not: it is <strong>serif</strong>.
+        </p>
+      `
+      );
+
+      shadow.appendChild(styles);
+      shadow.appendChild(body);
+    </script>
+  </body>
+</html>

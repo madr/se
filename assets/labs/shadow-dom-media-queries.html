@@ -1,0 +1,46 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Media queries in Shadow DOM</title>
+  </head>
+  <body>
+    <!-- Notice width for below example -->
+    <div style="width: 160px">
+      <div id="content"></div>
+    </div>
+    <script>
+      var shadow = document
+        .getElementById("content")
+        .attachShadow({ mode: "open" });
+
+      var styles = document.createElement("style");
+      styles.textContent = `
+        p {
+          background-color: silver;
+          border: 1px solid black;
+          padding: 0.25em;
+        }
+
+        @media (min-width: 161px) {
+          p { 
+            background-color: yellow; }
+          }
+      `;
+
+      var body = document.createElement("body");
+      body.insertAdjacentHTML(
+        "beforeend",
+        `
+        <p>
+          Background color of this block should be <strong>silver</strong> on big screens, 
+          but it is <strong>yellow</strong> since the viewport width is 
+          used for CSS Media queries.
+        </p>
+      `
+      );
+
+      shadow.appendChild(styles);
+      shadow.appendChild(body);
+    </script>
+  </body>
+</html>
